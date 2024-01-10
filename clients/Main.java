@@ -7,6 +7,7 @@ import javax.swing.WindowConstants;
 import clients.backDoor.BackDoorController;
 import clients.backDoor.BackDoorModel;
 import clients.backDoor.BackDoorView;
+import clients.cashier.BetterCashierModel;
 import clients.cashier.CashierController;
 import clients.cashier.CashierModel;
 import clients.cashier.CashierView;
@@ -100,8 +101,13 @@ class Main
     window.setTitle( "Cashier Client MVC");
     window.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     Dimension pos = PosOnScrn.getPos();
-
-    CashierModel model      = new CashierModel(mlf);
+    
+    //better cashier model
+    BetterCashierModel model      = new BetterCashierModel(mlf);
+    
+    
+    
+    
     CashierView view        = new CashierView( window, mlf, pos.width, pos.height );
     CashierController cont  = new CashierController( model, view );
     view.setController( cont );

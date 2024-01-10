@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class Product implements Serializable
 {
   private static final long serialVersionUID = 20092506;
-  private String theProductNum;       // Product number
+  public String theProductNum;       // Product number
   private String theDescription;      // Description of product
   private double thePrice;            // Price of product
   private int    theQuantity;         // Quantity involved

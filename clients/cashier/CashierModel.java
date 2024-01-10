@@ -22,12 +22,12 @@ public class CashierModel extends Observable
 
   private State       theState   = State.process;   // Current state
   private Product     theProduct = null;            // Current product
-  private Basket      theBasket  = null;            // Bought items
+  protected Basket      theBasket  = null;            // Bought items
 
   private String      pn = "";                      // Product being processed
 
   private StockReadWriter theStock     = null;
-  private OrderProcessing theOrder     = null;
+  protected OrderProcessing theOrder     = null;
 
   /**
    * Construct the model of the Cashier
