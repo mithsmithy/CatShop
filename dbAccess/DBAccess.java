@@ -5,7 +5,7 @@ package dbAccess;
   * @author  Mike Smith University of Brighton
   * @version 2.0
   */
- 
+
 /**
  * Base class that defines the access to the database driver
  */

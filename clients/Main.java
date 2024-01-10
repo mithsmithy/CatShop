@@ -1,4 +1,9 @@
 package clients;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import clients.backDoor.BackDoorController;
 import clients.backDoor.BackDoorModel;
 import clients.backDoor.BackDoorView;
@@ -20,9 +25,6 @@ import clients.warehousePick.PickView;
 import middle.LocalMiddleFactory;
 import middle.MiddleFactory;
 
-import javax.swing.*;
-import java.awt.*;
-
 
 /**
  * Starts all the clients  as a single application.
@@ -34,12 +36,21 @@ class Main
 {
   // Change to false to reduce the number of duplicated clients
 
+
+
+
   private final static boolean many = false;        // Many clients? (Or minimal clients)
 
   public static void main (String args[])
   {
     new Main().begin();
+
   }
+
+
+
+
+
 
   /**
    * Starts test system (Non distributed)
@@ -48,29 +59,29 @@ class Main
   {
     //DEBUG.set(true); /* Lots of debug info */
     MiddleFactory mlf = new LocalMiddleFactory();  // Direct access
- 
+
     startCustomerGUI_MVC( mlf );
-    if ( many ) 
+    if ( many )
      startCustomerGUI_MVC( mlf );
     startCashierGUI_MVC( mlf );
     startCashierGUI_MVC( mlf );
     startBackDoorGUI_MVC( mlf );
-    if ( many ) 
+    if ( many )
       startPickGUI_MVC( mlf );
     startPickGUI_MVC( mlf );
     startDisplayGUI_MVC( mlf );
-    if ( many ) 
+    if ( many )
       startDisplayGUI_MVC( mlf );
     startCollectionGUI_MVC( mlf );
   }
-  
+
   public void startCustomerGUI_MVC(MiddleFactory mlf )
   {
     JFrame  window = new JFrame();
     window.setTitle( "Customer Client MVC");
-    window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    window.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     Dimension pos = PosOnScrn.getPos();
-    
+
     CustomerModel model      = new CustomerModel(mlf);
     CustomerView view        = new CustomerView( window, mlf, pos.width, pos.height );
     CustomerController cont  = new CustomerController( model, view );
@@ -88,9 +99,9 @@ class Main
   {
     JFrame  window = new JFrame();
     window.setTitle( "Cashier Client MVC");
-    window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    window.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     Dimension pos = PosOnScrn.getPos();
-    
+
     CashierModel model      = new CashierModel(mlf);
     CashierView view        = new CashierView( window, mlf, pos.width, pos.height );
     CashierController cont  = new CashierController( model, view );
@@ -106,9 +117,9 @@ class Main
     JFrame  window = new JFrame();
 
     window.setTitle( "BackDoor Client MVC");
-    window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    window.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     Dimension pos = PosOnScrn.getPos();
-    
+
     BackDoorModel model      = new BackDoorModel(mlf);
     BackDoorView view        = new BackDoorView( window, mlf, pos.width, pos.height );
     BackDoorController cont  = new BackDoorController( model, view );
@@ -117,16 +128,16 @@ class Main
     model.addObserver( view );       // Add observer to the model
     window.setVisible(true);         // Make window visible
   }
-  
+
 
   public void startPickGUI_MVC(MiddleFactory mlf )
   {
     JFrame  window = new JFrame();
 
     window.setTitle( "Pick Client MVC");
-    window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    window.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     Dimension pos = PosOnScrn.getPos();
-    
+
     PickModel model      = new PickModel(mlf);
     PickView view        = new PickView( window, mlf, pos.width, pos.height );
     PickController cont  = new PickController( model, view );
@@ -135,15 +146,15 @@ class Main
     model.addObserver( view );       // Add observer to the model
     window.setVisible(true);         // Make window visible
   }
-  
+
   public void startDisplayGUI_MVC(MiddleFactory mlf )
   {
     JFrame  window = new JFrame();
 
     window.setTitle( "Display Client MVC");
-    window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    window.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     Dimension pos = PosOnScrn.getPos();
-    
+
     DisplayModel model      = new DisplayModel(mlf);
     DisplayView view        = new DisplayView( window, mlf, pos.width, pos.height );
     DisplayController cont  = new DisplayController( model, view );
@@ -159,9 +170,9 @@ class Main
     JFrame  window = new JFrame();
 
     window.setTitle( "Collect Client MVC");
-    window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    window.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     Dimension pos = PosOnScrn.getPos();
-    
+
     CollectModel model      = new CollectModel(mlf);
     CollectView view        = new CollectView( window, mlf, pos.width, pos.height );
     CollectController cont  = new CollectController( model, view );

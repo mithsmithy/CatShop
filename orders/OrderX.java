@@ -1,19 +1,17 @@
 
 package orders;
 
+import java.util.ArrayList;
+import java.util.Formatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import catalogue.Basket;
 import catalogue.Product;
 import debug.DEBUG;
 import middle.OrderException;
 import middle.OrderProcessing;
-
-import java.util.stream.Collectors;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Formatter;
 
 /**
   * <BR>-----------------------------------------
@@ -21,7 +19,7 @@ import java.util.Formatter;
   * <BR>-----------------------------------------
   * <P>
   * The order processing system.<BR>
-  * Manages the progression of customer orders, instances of a Basket as they are 
+  * Manages the progression of customer orders, instances of a Basket as they are
   * progressed through the system.
   * This is achieved by holding 3 seperate lists of orders, each list represents a specific
   * stage in the orders life cycle. These stages are:
@@ -31,18 +29,18 @@ import java.util.Formatter;
   * @author  Michael Alexander Smith
   * @version 2.0
   */
- 
+
 public class OrderX implements OrderProcessing
 {
   private static int theNextNumber = 1;          // Start at 1
   // Orders entered but waiting to be processed (picked)
-  private ArrayList<Basket>  theWaitingTray = new ArrayList<Basket>();
+  private ArrayList<Basket>  theWaitingTray = new ArrayList<>();
 
   // Orders being processed (currently being picked)
-  private ArrayList<Basket>  theBeingPickedTray = new ArrayList<Basket>();
+  private ArrayList<Basket>  theBeingPickedTray = new ArrayList<>();
 
   // Orders waiting to be collected by the customer
-  private ArrayList<Basket>  theToBeCollectedTray = new ArrayList<Basket>();
+  private ArrayList<Basket>  theToBeCollectedTray = new ArrayList<>();
 
   /**
    * Used to generate debug information
@@ -68,7 +66,8 @@ public class OrderX implements OrderProcessing
    *   would be good to recycle numbers after 999
    * @return A unique order number
    */
-  public synchronized int uniqueNumber()
+  @Override
+public synchronized int uniqueNumber()
   {
     return theNextNumber++;
   }
@@ -76,8 +75,9 @@ public class OrderX implements OrderProcessing
   /**
    * Add a new order to the order processing system
    * @param bought a new order that is to be processed
-   */ 
-  public synchronized void newOrder( Basket bought )
+   */
+  @Override
+public synchronized void newOrder( Basket bought )
          throws OrderException
   {
     // You need to modify and fill in the correct code
@@ -95,7 +95,8 @@ public class OrderX implements OrderProcessing
    * @return An order to pick.
    */
 
-  public synchronized Basket getOrderToPick()
+  @Override
+public synchronized Basket getOrderToPick()
          throws OrderException
   {
     // You need to modify and fill in the correct code
@@ -117,7 +118,8 @@ public class OrderX implements OrderProcessing
    * @return true :: Order in system, false -:: no such order
    */
 
-  public synchronized boolean informOrderPicked( int orderNum )
+  @Override
+public synchronized boolean informOrderPicked( int orderNum )
          throws OrderException
   {
     // You need to modify and fill in the correct code
@@ -140,7 +142,8 @@ public class OrderX implements OrderProcessing
    * @return true :: Order in system, false -:: no such order
    */
 
-  public synchronized boolean informOrderCollected( int orderNum )
+  @Override
+public synchronized boolean informOrderCollected( int orderNum )
          throws OrderException
   {
     // You need to modify and fill in the correct code
@@ -168,22 +171,23 @@ public class OrderX implements OrderProcessing
    * @return a Map with the keys: Waiting, BeingPicked, ToBeCollected
    */
 
-  public synchronized Map<String, List<Integer> > getOrderState()
+  @Override
+public synchronized Map<String, List<Integer> > getOrderState()
          throws OrderException
   {
     DEBUG.trace( "DEBUG: get state of order system" );
-    Map < String, List<Integer> > res = 
-      new HashMap< String, List<Integer> >();
+    Map < String, List<Integer> > res =
+      new HashMap< >();
     res.put( "Waiting",       orderNos(theWaitingTray) );
     res.put( "BeingPicked",   orderNos(theBeingPickedTray) );
     res.put( "ToBeCollected", orderNos(theToBeCollectedTray) );
 
     return res;
   }
-  
+
   private List< Integer > orderNos( ArrayList<Basket> queue )
   {
-    List <Integer> res = new ArrayList<Integer>();
+    List <Integer> res = new ArrayList<>();
     for ( Basket sb: queue )
     {
       res.add( sb.getOrderNum() );

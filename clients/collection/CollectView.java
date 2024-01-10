@@ -1,12 +1,19 @@
 package clients.collection;
 
-import middle.MiddleFactory;
-import middle.OrderProcessing;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.RootPaneContainer;
+
+import middle.MiddleFactory;
+import middle.OrderProcessing;
 
 /**
  * Implements the Customer view.
@@ -17,7 +24,7 @@ import java.util.Observer;
 public class CollectView implements Observer
 {
  private static final String COLLECT = "Collect";
-  
+
   private static final int H = 300;       // Height of window pixels
   private static final int W = 400;       // Width  of window pixels
 
@@ -26,7 +33,7 @@ public class CollectView implements Observer
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCollect= new JButton( COLLECT );
- 
+
   private OrderProcessing   theOrder = null;
   private CollectController cont     = null;
 
@@ -34,13 +41,13 @@ public class CollectView implements Observer
    * Construct the view
    * @param rpc   Window in which to construct
    * @param mf    Factor to deliver order and stock objects
-   * @param x     x-cordinate of position of window on screen 
-   * @param y     y-cordinate of position of window on screen  
+   * @param x     x-cordinate of position of window on screen
+   * @param y     y-cordinate of position of window on screen
    */
   public CollectView(  RootPaneContainer rpc, MiddleFactory mf, int x, int y )
   {
-    try                                           // 
-    {      
+    try                                           //
+    {
       theOrder = mf.makeOrderProcessing();        // Process order
     } catch ( Exception e )
     {
@@ -69,13 +76,13 @@ public class CollectView implements Observer
 
     theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
     theOutput.setText( "" );                        //  Blank
-    theOutput.setFont( f );                         //  Uses font  
+    theOutput.setFont( f );                         //  Uses font
     cp.add( theSP );                                //  Add to canvas
     theSP.getViewport().add( theOutput );           //  In TextArea
     rootWindow.setVisible( true );                  // Make visible
     theInput.requestFocus();                        // Focus is here
-  }  
-  
+  }
+
   public void setController( CollectController c )
   {
     cont = c;
@@ -84,15 +91,15 @@ public class CollectView implements Observer
   /**
    * Update the view
    * @param modelC   The observed model
-   * @param arg      Specific args 
+   * @param arg      Specific args
    */
-  @Override 
+  @Override
   public void update( Observable modelC, Object arg )
   {
     CollectModel model  = (CollectModel) modelC;
     String        message = (String) arg;
     theAction.setText( message );
-    
+
     theOutput.setText( model.getResponce() );
     theInput.requestFocus();               // Focus is here
   }

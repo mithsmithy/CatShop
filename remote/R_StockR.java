@@ -1,11 +1,12 @@
 package remote;
 
+import java.rmi.RemoteException;
+
+import javax.swing.ImageIcon;
+
 import catalogue.Product;
 import dbAccess.StockR;
 import middle.StockException;
-
-import javax.swing.*;
-import java.rmi.RemoteException;
 
 // There can only be 1 ResultSet opened per statement
 // so no simultaneous use of the statement object
@@ -35,7 +36,8 @@ public class      R_StockR
    * @param pNum The product number
    * @return true if exists otherwise false
    */
-  public synchronized boolean exists( String pNum )
+  @Override
+public synchronized boolean exists( String pNum )
          throws RemoteException, StockException
   {
     return aStockR.exists( pNum );
@@ -46,12 +48,13 @@ public class      R_StockR
    * @param pNum The product number
    * @return StockNumber, Description, Price, Quantity
    */
-  public synchronized Product getDetails( String pNum )
+  @Override
+public synchronized Product getDetails( String pNum )
          throws RemoteException, StockException
   {
     return aStockR.getDetails( pNum );
   }
-  
+
   /**
    * Returns an image of the product
    * BUG However this will not work for distributed version
@@ -59,7 +62,8 @@ public class      R_StockR
    * @param pNum The product number
    * @return Image
    */
-  public synchronized ImageIcon getImage( String pNum )
+  @Override
+public synchronized ImageIcon getImage( String pNum )
          throws RemoteException, StockException
   {
     return aStockR.getImage( pNum );

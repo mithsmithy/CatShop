@@ -7,12 +7,14 @@ package dbAccess;
   */
 class WindowsAccess extends DBAccess
 {
-  public void loadDriver() throws Exception
+  @Override
+public void loadDriver() throws Exception
   {
     Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
   }
 
-  public String urlOfDatabase()
+  @Override
+public String urlOfDatabase()
   {
     return "jdbc:odbc:cshop";
   }

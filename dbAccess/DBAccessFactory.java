@@ -5,12 +5,12 @@
 
 package dbAccess;
 
-import debug.DEBUG;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import debug.DEBUG;
 
 /**
   * Manages the starting up of the database.
@@ -18,7 +18,7 @@ import java.io.IOException;
   */
 
 // Pattern: Abstract Factory
-//          Fix to be 
+//          Fix to be
 
 public class DBAccessFactory
 {
@@ -41,7 +41,7 @@ public class DBAccessFactory
     System.out.println( theOS );
     return theOS;
   }
-  
+
   /**
    * Return an object to implement system level access to the database.
    * @return An object to provide system level access to the database
@@ -54,25 +54,25 @@ public class DBAccessFactory
     {
        case "Derby" :
          return new DerbyAccess();       // Derby
-    
+
        case "DerbyCreate" :
          return new DerbyCreateAccess(); // Derby & create database
-    
+
        case "Access" :
        case "AccessCreate" :
          return new WindowsAccess();     // Access Windows
-    
+
        case "mySQL" :
        case "mySQLCreate" :
          return new LinuxAccess();       // MySQL Linux
-         
+
        default:
          DEBUG.error("DataBase [%s] not known\n", theDataBase );
          System.exit(0);
     }
     return new DBAccess();               // Unknown
   }
-  
+
   /**
    * return as a string the contents of a file
    * stripping out newline and carriage returns from contents

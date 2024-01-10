@@ -1,14 +1,14 @@
 package clients.warehousePick;
 
+import java.util.Observable;
+import java.util.concurrent.atomic.AtomicReference;
+
 import catalogue.Basket;
 import debug.DEBUG;
 import middle.MiddleFactory;
 import middle.OrderException;
 import middle.OrderProcessing;
 import middle.StockReadWriter;
-
-import java.util.Observable;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Implements the Model of the warehouse pick client
@@ -17,12 +17,12 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class PickModel extends Observable
 {
-  private AtomicReference<Basket> theBasket = new AtomicReference<>(); 
+  private AtomicReference<Basket> theBasket = new AtomicReference<>();
 
   private StockReadWriter theStock   = null;
   private OrderProcessing theOrder   = null;
   private String          theAction  = "";
-  
+
   private StateOf         worker   = new StateOf();
 
   /*
@@ -31,8 +31,8 @@ public class PickModel extends Observable
    */
   public PickModel(MiddleFactory mf)
   {
-    try                                     // 
-    {      
+    try                                     //
+    {
       theStock = mf.makeStockReadWriter();  // Database access
       theOrder = mf.makeOrderProcessing();  // Process order
     } catch ( Exception e )
@@ -44,8 +44,8 @@ public class PickModel extends Observable
     // Start a background check to see when a new order can be picked
     new Thread( () -> checkForNewOrder() ).start();
   }
-  
-  
+
+
   /**
    * Semaphore used to only allow 1 order
    * to be picked at once by this person
@@ -53,7 +53,7 @@ public class PickModel extends Observable
   class StateOf
   {
     private boolean held = false;
-    
+
     /**
      * Claim exclusive access
      * @return true if claimed else false
@@ -62,7 +62,7 @@ public class PickModel extends Observable
     {
       return held ? false : (held = true);
     }
-    
+
     /**
      * Free the lock
      */
@@ -73,7 +73,7 @@ public class PickModel extends Observable
     }
 
   }
-  
+
   /**
    * Method run in a separate thread to check if there
    * is a new order waiting to be picked and we have
@@ -88,18 +88,18 @@ public class PickModel extends Observable
         boolean isFree = worker.claim();     // Are we free
         if ( isFree )                        // T
         {                                    //
-          Basket sb = 
-            theOrder.getOrderToPick();       //  Order 
+          Basket sb =
+            theOrder.getOrderToPick();       //  Order
           if ( sb != null )                  //  Order to pick
           {                                  //  T
             theBasket.set(sb);               //   Working on
             theAction = "Order to pick";     //   what to do
           } else {                           //  F
             worker.free();                   //  Free
-            theAction = "";                  // 
+            theAction = "";                  //
           }
           setChanged(); notifyObservers(theAction);
-        }                                    // 
+        }                                    //
         Thread.sleep(2000);                  // idle
       } catch ( Exception e )
       {
@@ -109,8 +109,8 @@ public class PickModel extends Observable
       }
     }
   }
-  
-  
+
+
   /**
    * Return the Basket of products that are to be picked
    * @return the basket
@@ -136,7 +136,7 @@ public class PickModel extends Observable
         theOrder.informOrderPicked( no );     //  Tell system
         theAction = "";                       //  Inform picker
         worker.free();                        //  Can pick some more
-      } else {                                // F 
+      } else {                                // F
         theAction = "No order to pick";       //   Not picked order
       }
       setChanged(); notifyObservers(theAction);

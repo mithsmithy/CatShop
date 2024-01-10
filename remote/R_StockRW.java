@@ -1,11 +1,12 @@
 package remote;
 
+import java.rmi.RemoteException;
+
+import javax.swing.ImageIcon;
+
 import catalogue.Product;
 import dbAccess.StockRW;
 import middle.StockException;
-
-import javax.swing.*;
-import java.rmi.RemoteException;
 
 // There can only be 1 ResultSet opened per statement
 // so no simultaneous use of the statement object
@@ -37,14 +38,15 @@ public class      R_StockRW
   {
     aStockRW = new StockRW();
   }
-  
+
   /**
    * Returns true if product exists
    * @param pNum The product number
    * @return true if product exists else false
    * @throws middle.StockException if underlying error
    */
-  public synchronized boolean exists( String pNum )
+  @Override
+public synchronized boolean exists( String pNum )
          throws StockException
   {
     return aStockRW.exists( pNum );
@@ -56,7 +58,8 @@ public class      R_StockRW
    * @return StockNumber, Description, Price, Quantity
    * @throws middle.StockException if underlying error
    */
-  public synchronized Product getDetails( String pNum )
+  @Override
+public synchronized Product getDetails( String pNum )
          throws StockException
   {
     return aStockRW.getDetails( pNum );
@@ -68,7 +71,8 @@ public class      R_StockRW
    * @return image
    * @throws middle.StockException if underlying error
    */
-  public synchronized ImageIcon getImage( String pNum )
+  @Override
+public synchronized ImageIcon getImage( String pNum )
          throws StockException
   {
     return aStockRW.getImage( pNum );
@@ -85,7 +89,8 @@ public class      R_StockRW
   // Need to Fix
   //  What happens if can not commit data
   //
-  public synchronized boolean buyStock( String pNum, int amount )
+  @Override
+public synchronized boolean buyStock( String pNum, int amount )
          throws StockException
   {
     return aStockRW.buyStock( pNum, amount );
@@ -97,7 +102,8 @@ public class      R_StockRW
    * @param amount Quantity
    * @throws middle.StockException if underlying error
    */
-  public synchronized void addStock( String pNum, int amount )
+  @Override
+public synchronized void addStock( String pNum, int amount )
          throws StockException
   {
     aStockRW.addStock( pNum, amount );
@@ -110,7 +116,8 @@ public class      R_StockRW
    * @param product The product to be modified
    * @throws middle.StockException if underlying error
    */
-  public synchronized void modifyStock( Product product )
+  @Override
+public synchronized void modifyStock( Product product )
               throws StockException
   {
     aStockRW.modifyStock( product );

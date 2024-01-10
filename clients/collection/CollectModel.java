@@ -1,10 +1,10 @@
 package clients.collection;
 
+import java.util.Observable;
+
 import debug.DEBUG;
 import middle.MiddleFactory;
 import middle.OrderProcessing;
-
-import java.util.Observable;
 
 /**
  * Implements the Model of the collection client
@@ -24,17 +24,17 @@ public class CollectModel extends Observable
    */
   public CollectModel(MiddleFactory mf)
   {
-    try                                           // 
-    {      
+    try                                           //
+    {
       theOrder = mf.makeOrderProcessing();        // Process order
     } catch ( Exception e )
     {
       DEBUG.error("%s\n%s",
-       "CollectModel.constructor\n%s", 
+       "CollectModel.constructor\n%s",
         e.getMessage() );
     }
   }
-  
+
   /**
    * Check if the product is in Stock
    * @param orderNumber The order to be collected
@@ -47,13 +47,13 @@ public class CollectModel extends Observable
     {
       orderNum = Integer.parseInt(on);       // Convert
     }
-    catch ( Exception err) 
+    catch ( Exception err)
     {
       // Convert invalid order number to 0
     }
     try
     {
-      boolean ok = 
+      boolean ok =
        theOrder.informOrderCollected( orderNum );
       if ( ok )
       {
@@ -83,5 +83,5 @@ public class CollectModel extends Observable
   {
     return theOutput;
   }
-  
+
 }

@@ -1,5 +1,7 @@
 package dbAccess;
 
+import java.sql.SQLException;
+
 /**
  * Implements Read /Write access to the stock list
  * The stock list is held in a relational DataBase
@@ -12,33 +14,32 @@ import debug.DEBUG;
 import middle.StockException;
 import middle.StockReadWriter;
 
-import java.sql.SQLException;
-
 // There can only be 1 ResultSet opened per statement
 // so no simultaneous use of the statement object
 // hence the synchronized methods
-// 
+//
 
 /**
   * Implements read/write access to the stock database.
   */
-public class StockRW extends StockR implements StockReadWriter 
+public class StockRW extends StockR implements StockReadWriter
 {
   /*
    * Connects to database
    */
   public StockRW() throws StockException
-  {    
+  {
     super();        // Connection done in StockR's constructor
   }
-  
+
   /**
    * Customer buys stock, quantity decreased if sucessful.
    * @param pNum Product number
    * @param amount Amount of stock bought
    * @return true if succeeds else false
    */
-  public synchronized boolean buyStock( String pNum, int amount )
+  @Override
+public synchronized boolean buyStock( String pNum, int amount )
          throws StockException
   {
     DEBUG.trace("DB StockRW: buyStock(%s,%d)", pNum, amount);
@@ -65,7 +66,8 @@ public class StockRW extends StockR implements StockReadWriter
    * @param pNum Product number
    * @param amount Amount of stock to add
    */
-  public synchronized void addStock( String pNum, int amount )
+  @Override
+public synchronized void addStock( String pNum, int amount )
          throws StockException
   {
     try
@@ -89,27 +91,28 @@ public class StockRW extends StockR implements StockReadWriter
    * Information modified: Description, Price
    * @param detail Product details to change stocklist to
    */
-  public synchronized void modifyStock( Product detail )
+  @Override
+public synchronized void modifyStock( Product detail )
          throws StockException
   {
-    DEBUG.trace( "DB StockRW: modifyStock(%s)", 
+    DEBUG.trace( "DB StockRW: modifyStock(%s)",
                  detail.getProductNum() );
     try
     {
       if ( ! exists( detail.getProductNum() ) )
       {
-    	getStatementObject().executeUpdate( 
+    	getStatementObject().executeUpdate(
          "insert into ProductTable values ('" +
-            detail.getProductNum() + "', " + 
-             "'" + detail.getDescription() + "', " + 
-             "'images/Pic" + detail.getProductNum() + ".jpg', " + 
+            detail.getProductNum() + "', " +
+             "'" + detail.getDescription() + "', " +
+             "'images/Pic" + detail.getProductNum() + ".jpg', " +
              "'" + detail.getPrice() + "' " + ")"
             );
-    	getStatementObject().executeUpdate( 
-           "insert into StockTable values ('" + 
-           detail.getProductNum() + "', " + 
+    	getStatementObject().executeUpdate(
+           "insert into StockTable values ('" +
+           detail.getProductNum() + "', " +
            "'" + detail.getQuantity() + "' " + ")"
-           ); 
+           );
       } else {
     	getStatementObject().executeUpdate(
           "update ProductTable " +
@@ -117,14 +120,14 @@ public class StockRW extends StockR implements StockReadWriter
           "      price       = " + detail.getPrice() +
           "  where productNo = '" + detail.getProductNum() + "' "
          );
-       
+
     	getStatementObject().executeUpdate(
           "update StockTable set stockLevel = " + detail.getQuantity() +
           "  where productNo = '" + detail.getProductNum() + "'"
         );
       }
       //getConnectionObject().commit();
-      
+
     } catch ( SQLException e )
     {
       throw new StockException( "SQL modifyStock: " + e.getMessage() );

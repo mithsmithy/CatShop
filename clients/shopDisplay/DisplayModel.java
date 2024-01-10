@@ -1,17 +1,17 @@
 package clients.shopDisplay;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Observable;
+
 import debug.DEBUG;
 import middle.MiddleFactory;
 import middle.OrderException;
 import middle.OrderProcessing;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
-
 // File is complete but not optimal
 //  Will force update of display every 2 seconds
-//  Could be clever & only ask for an update of the display 
+//  Could be clever & only ask for an update of the display
 //   if it really has changed
 
 /**
@@ -30,8 +30,8 @@ public class DisplayModel extends Observable
    */
   public DisplayModel( MiddleFactory mf  )
   {
-    try                                           // 
-    {      
+    try                                           //
+    {
       theOrder = mf.makeOrderProcessing();        // Process order
     } catch ( Exception e )
     {
@@ -39,15 +39,15 @@ public class DisplayModel extends Observable
       DEBUG.error("ModelOfDisplay: " + e.getMessage() );
     }
     new Thread( () -> backgroundRun() ).start();
-    
+
   }
-  
+
  /**
    * Run as a thread in background to continually update the display
    */
   public void backgroundRun()
   {
-    while ( true )                               // Forever                    
+    while ( true )                               // Forever
     {
      try
       {
@@ -63,7 +63,7 @@ public class DisplayModel extends Observable
       }
     }
   }
-  
+
  // Will be called by the viewOfDisplay
  //   when it is told that the view has changed
  public synchronized Map<String, List<Integer> > getOrderState()

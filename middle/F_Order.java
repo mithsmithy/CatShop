@@ -1,12 +1,12 @@
 package middle;
 
-import catalogue.Basket;
-import debug.DEBUG;
-import remote.RemoteOrder_I;
-
 import java.rmi.Naming;
 import java.util.List;
 import java.util.Map;
+
+import catalogue.Basket;
+import debug.DEBUG;
+import remote.RemoteOrder_I;
 
 // There can only be 1 ResultSet opened per statement
 // so no simultaneous use of the statement object
@@ -28,7 +28,7 @@ public class F_Order implements OrderProcessing
   {
     theOrderURL = url;
   }
-  
+
   private void connect() throws OrderException
   {
     try                                            // Setup
@@ -39,14 +39,15 @@ public class F_Order implements OrderProcessing
     catch ( Exception e )                          // Failure to
     {                                              //  attach to the
       aR_Order = null;
-      throw new OrderException( "Com: " + 
+      throw new OrderException( "Com: " +
                                e.getMessage()  );  //  object
-      
+
     }
   }
 
 
-  public void newOrder( Basket bought )
+  @Override
+public void newOrder( Basket bought )
          throws OrderException
   {
     DEBUG.trace("F_Order:newOrder()" );
@@ -61,7 +62,8 @@ public class F_Order implements OrderProcessing
     }
   }
 
-  public int uniqueNumber()
+  @Override
+public int uniqueNumber()
          throws OrderException
   {
     DEBUG.trace("F_Order:uniqueNumber()" );
@@ -82,7 +84,8 @@ public class F_Order implements OrderProcessing
    * @return An order to pick
    */
 
-  public synchronized Basket getOrderToPick()
+  @Override
+public synchronized Basket getOrderToPick()
          throws OrderException
   {
     DEBUG.trace("F_Order:getOrderTioPick()" );
@@ -103,7 +106,8 @@ public class F_Order implements OrderProcessing
    * the shop floor.
    */
 
-  public synchronized boolean informOrderPicked( int orderNum )
+  @Override
+public synchronized boolean informOrderPicked( int orderNum )
          throws OrderException
   {
     DEBUG.trace("F_Order:informOrderPicked()" );
@@ -123,7 +127,8 @@ public class F_Order implements OrderProcessing
    * collected by the customer
    */
 
-  public synchronized boolean informOrderCollected( int orderNum )
+  @Override
+public synchronized boolean informOrderCollected( int orderNum )
          throws OrderException
   {
     DEBUG.trace("F_Order:informOrderCollected()" );
@@ -142,7 +147,8 @@ public class F_Order implements OrderProcessing
    * Returns information about all orders in the order processing system
    */
 
-  public synchronized Map<String, List<Integer> > getOrderState()
+  @Override
+public synchronized Map<String, List<Integer> > getOrderState()
          throws OrderException
   {
     DEBUG.trace("F_Order:getOrderState()" );

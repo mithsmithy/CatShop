@@ -1,11 +1,11 @@
 package clients;
 
+import javax.swing.JApplet;
+
 import debug.DEBUG;
 import middle.MiddleFactory;
 import middle.Names;
 import middle.RemoteMiddleFactory;
-
-import javax.swing.*;
 
 /**
  * The Customer Client as an Applet
@@ -16,22 +16,23 @@ import javax.swing.*;
 public class WebCustomerClient extends JApplet
 {
   private static final long serialVersionUID = 1;
-  public void init ()
+  @Override
+public void init ()
   {
     String supplied = getParameter( "stock" );  //
     String stockURL = supplied.equals("")       // URL of stock R
                       ? Names.STOCK_R           //  default  location
                       : supplied;               //  supplied location
-                     
+
     System.out.println("URL " + stockURL );
-    RemoteMiddleFactory mrf = new RemoteMiddleFactory(); 
+    RemoteMiddleFactory mrf = new RemoteMiddleFactory();
     mrf.setStockRInfo( stockURL );
     displayGUI(mrf);                            // Create GUI
   }
-   
+
   public void displayGUI( MiddleFactory mf )
   {
     DEBUG.trace( "Need to add code" );
-    //new CustomerGUI( this, mf, 0, 0 ); 
+    //new CustomerGUI( this, mf, 0, 0 );
   }
 }

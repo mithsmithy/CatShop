@@ -1,10 +1,15 @@
 package clients;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 import dbAccess.DBAccess;
 import dbAccess.DBAccessFactory;
-
-import java.sql.*;
-import java.util.ArrayList;
 
 /**
  * Repopulate the database with test data
@@ -12,7 +17,7 @@ import java.util.ArrayList;
  * @version 3.0 Derby
  */
 
-class Setup 
+class Setup
 {
   private static String[] sqlStatements = {
 
@@ -43,6 +48,16 @@ class Setup
      "('0006', 'MP3 player',        'images/pic0006.jpg', 7.99)",
   "insert into ProductTable values " +
      "('0007', '32Gb USB2 drive',   'images/pic0007.jpg', 6.99)",
+     "insert into ProductTable values " +
+
+    //New items added
+         "('0008', 'Bluetooth Headphones', 'images/pic0008.jpg', 49.99)",
+     "insert into ProductTable values " +
+         "('0009', 'Coffee Maker', 'images/pic0009.jpg', 39.99)",
+     "insert into ProductTable values " +
+         "('0010', 'Wireless Mouse', 'images/pic0010.jpg', 14.99)",
+
+
 //  "select * from ProductTable",
 
 
@@ -58,6 +73,13 @@ class Setup
   "insert into StockTable values ( '0005',  17 )",
   "insert into StockTable values ( '0006',  15 )",
   "insert into StockTable values ( '0007',  01 )",
+
+
+ //New items stock amounts
+  "insert into StockTable values ( '0008',  25 )",
+  "insert into StockTable values ( '0009',  18 )",
+  "insert into StockTable values ( '0010',  30 )",
+
 
   "select * from StockTable, ProductTable " +
           " where StockTable.productNo = ProductTable.productNo"
@@ -75,13 +97,13 @@ class Setup
       dbDriver = (new DBAccessFactory()).getNewDBAccess();
       dbDriver.loadDriver();
       theCon  = DriverManager.getConnection
-                  ( dbDriver.urlOfDatabase(), 
-                    dbDriver.username(), 
+                  ( dbDriver.urlOfDatabase(),
+                    dbDriver.username(),
                     dbDriver.password() );
     }
     catch ( SQLException e )
     {
-      System.err.println( "Problem with connection to " + 
+      System.err.println( "Problem with connection to " +
                            dbDriver.urlOfDatabase() );
       System.out.println("SQLException: " + e.getMessage());
       System.out.println("SQLState:     " + e.getSQLState());
@@ -162,7 +184,7 @@ class Setup
     try
     {
       ResultSet res = stmt.executeQuery( stm );
-      
+
       ArrayList<String> names = new ArrayList<>(10);
 
       ResultSetMetaData md = res.getMetaData();
@@ -199,7 +221,7 @@ class Setup
                          "\n" + e.getMessage());
     }
   }
-  
+
   private static String m( int len, String s )
   {
     if ( s.length() >= len )

@@ -1,5 +1,9 @@
 package clients.customer;
 
+import java.util.Observable;
+
+import javax.swing.ImageIcon;
+
 import catalogue.Basket;
 import catalogue.Product;
 import debug.DEBUG;
@@ -7,9 +11,6 @@ import middle.MiddleFactory;
 import middle.OrderProcessing;
 import middle.StockException;
 import middle.StockReader;
-
-import javax.swing.*;
-import java.util.Observable;
 
 /**
  * Implements the Model of the customer client
@@ -33,8 +34,8 @@ public class CustomerModel extends Observable
    */
   public CustomerModel(MiddleFactory mf)
   {
-    try                                          // 
-    {  
+    try                                          //
+    {
       theStock = mf.makeStockReader();           // Database access
     } catch ( Exception e )
     {
@@ -43,7 +44,7 @@ public class CustomerModel extends Observable
     }
     theBasket = makeBasket();                    // Initial Basket
   }
-  
+
   /**
    * return the Basket of products
    * @return the basket of products
@@ -69,8 +70,8 @@ public class CustomerModel extends Observable
       {                                         // T
         Product pr = theStock.getDetails( pn ); //  Product
         if ( pr.getQuantity() >= amount )       //  In stock?
-        { 
-          theAction =                           //   Display 
+        {
+          theAction =                           //   Display
             String.format( "%s : %7.2f (%2d) ", //
               pr.getDescription(),              //    description
               pr.getPrice(),                    //    price
@@ -106,16 +107,16 @@ public class CustomerModel extends Observable
     thePic = null;                            // No picture
     setChanged(); notifyObservers(theAction);
   }
-  
+
   /**
    * Return a picture of the product
    * @return An instance of an ImageIcon
-   */ 
+   */
   public ImageIcon getPicture()
   {
     return thePic;
   }
-  
+
   /**
    * ask for update of view callled at start
    */

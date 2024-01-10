@@ -1,5 +1,6 @@
 package clients;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  * Returns a position for the client window on the screen
@@ -11,13 +12,13 @@ class PosOnScrn
 {
   private final static int clientW = 400;
   private final static int clientH = 300;
-  
+
   private static final int maxX;  // Width of screen
   private static final int maxY;  // Height of screen
-  
+
   private static int cX = 0; // Initial window pos on screen
   private static int cY = 0; // Initial window pos on screen
-  
+
   // class initialiser
   //  Will be called (once) when the class is loaded
   static
@@ -26,7 +27,7 @@ class PosOnScrn
     maxX = (int) dimension.getWidth();
     maxY = (int) dimension.getHeight();
   }
-  
+
   /**
    * Calculate position of next window
    */
@@ -44,7 +45,7 @@ class PosOnScrn
      // No room on screen
      // All new windows are tiled on top of each other
   }
-  
+
   /**
    * return position for new window on screen
    *  slight misuse of the inbuilt Dimension class

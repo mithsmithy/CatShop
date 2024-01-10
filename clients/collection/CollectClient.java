@@ -1,10 +1,11 @@
 package clients.collection;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import middle.MiddleFactory;
 import middle.Names;
 import middle.RemoteMiddleFactory;
-
-import javax.swing.*;
 
 /**
  * The standalone Collection Client.
@@ -23,20 +24,20 @@ public class CollectClient
      String orderURL = args.length < 2     // URL of order
                      ? Names.ORDER         //  default  location
                      : args[1];            //  supplied location
-     
+
     RemoteMiddleFactory mrf = new RemoteMiddleFactory();
     mrf.setStockRWInfo( stockURL );
     mrf.setOrderInfo  ( orderURL );        //
     displayGUI(mrf);                       // Create GUI
   }
-  
+
   private static void displayGUI(MiddleFactory mf)
-  {     
+  {
     JFrame  window = new JFrame();
-		     
+
     window.setTitle( "Collection Client (MVC RMI)");
-    window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		    
+    window.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+
 	CollectModel      model = new CollectModel(mf);
 	CollectView       view  = new CollectView( window, mf, 0, 0 );
 	CollectController cont  = new CollectController( model, view );

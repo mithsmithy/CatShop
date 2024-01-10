@@ -12,7 +12,7 @@ public class CollectController
 
   /**
    * Constructor
-   * @param model The model 
+   * @param model The model
    * @param view  The view from which the interaction came
    */
   public CollectController( CollectModel model, CollectView view )
@@ -28,7 +28,7 @@ public class CollectController
   public void doCollect( String orderNum )
   {
     model.doCollect(orderNum);
-  } 
+  }
 }
 
 

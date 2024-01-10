@@ -24,7 +24,7 @@ public class DEBUG
       return oldState;
     }
   }
-  
+
   /**
    * Revert to previous debuging state (Not nested)
    */
@@ -52,7 +52,7 @@ public class DEBUG
       }
     }
   }
-  
+
   /**
    * Display always text for debugging purposes
    * @param fmt  The same as printf etc

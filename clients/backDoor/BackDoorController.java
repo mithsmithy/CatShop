@@ -12,7 +12,7 @@ public class BackDoorController
   private BackDoorView  view  = null;
   /**
    * Constructor
-   * @param model The model 
+   * @param model The model
    * @param view  The view from which the interaction came
    */
   public BackDoorController( BackDoorModel model, BackDoorView view )
@@ -29,7 +29,7 @@ public class BackDoorController
   {
     model.doQuery(pn);
   }
-  
+
   /**
    * RStock interaction from view
    * @param pn       The product number to be re-stocked
@@ -48,6 +48,6 @@ public class BackDoorController
     model.doClear();
   }
 
-  
+
 }
 

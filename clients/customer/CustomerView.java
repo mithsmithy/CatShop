@@ -1,15 +1,21 @@
 package clients.customer;
 
-import catalogue.Basket;
-import catalogue.BetterBasket;
+import java.awt.Container;
+import java.awt.Font;
+import java.util.Observable;
+import java.util.Observer;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.RootPaneContainer;
+
 import clients.Picture;
 import middle.MiddleFactory;
 import middle.StockReader;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Implements the Customer view.
@@ -43,14 +49,14 @@ public class CustomerView implements Observer
    * Construct the view
    * @param rpc   Window in which to construct
    * @param mf    Factor to deliver order and stock objects
-   * @param x     x-cordinate of position of window on screen 
-   * @param y     y-cordinate of position of window on screen  
+   * @param x     x-cordinate of position of window on screen
+   * @param y     y-cordinate of position of window on screen
    */
-  
+
   public CustomerView( RootPaneContainer rpc, MiddleFactory mf, int x, int y )
   {
-    try                                             // 
-    {      
+    try                                             //
+    {
       theStock  = mf.makeStockReader();             // Database Access
     } catch ( Exception e )
     {
@@ -81,17 +87,17 @@ public class CustomerView implements Observer
     theInput.setBounds( 110, 50, 270, 40 );         // Product no area
     theInput.setText("");                           // Blank
     cp.add( theInput );                             //  Add to canvas
-    
+
     theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
     theOutput.setText( "" );                        //  Blank
-    theOutput.setFont( f );                         //  Uses font  
+    theOutput.setFont( f );                         //  Uses font
     cp.add( theSP );                                //  Add to canvas
     theSP.getViewport().add( theOutput );           //  In TextArea
 
     thePicture.setBounds( 16, 25+60*2, 80, 80 );   // Picture area
     cp.add( thePicture );                           //  Add to canvas
     thePicture.clear();
-    
+
     rootWindow.setVisible( true );                  // Make visible);
     theInput.requestFocus();                        // Focus is here
   }
@@ -109,10 +115,11 @@ public class CustomerView implements Observer
   /**
    * Update the view
    * @param modelC   The observed model
-   * @param arg      Specific args 
+   * @param arg      Specific args
    */
-   
-  public void update( Observable modelC, Object arg )
+
+  @Override
+public void update( Observable modelC, Object arg )
   {
     CustomerModel model  = (CustomerModel) modelC;
     String        message = (String) arg;

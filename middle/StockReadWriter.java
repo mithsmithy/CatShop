@@ -7,7 +7,7 @@ import catalogue.Product;
   * @author  Mike Smith University of Brighton
   * @version 2.0
   */
- 
+
 public interface StockReadWriter extends StockReader
 {
  /**
@@ -27,7 +27,7 @@ public interface StockReadWriter extends StockReader
    * @throws middle.StockException if issue
    */
   void addStock(String pNum, int amount) throws StockException;
-  
+
   /**
    * Modifies Stock details for a given product number.
    * Information modified: Description, Price

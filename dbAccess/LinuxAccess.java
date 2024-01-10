@@ -7,12 +7,14 @@ package dbAccess;
   */
 class LinuxAccess extends DBAccess
 {
-  public void loadDriver() throws Exception
+  @Override
+public void loadDriver() throws Exception
   {
     Class.forName("org.gjt.mm.mysql.Driver").newInstance();
   }
 
-  public String urlOfDatabase()
+  @Override
+public String urlOfDatabase()
   {
     return "jdbc:mysql://localhost/cshop?user=root";
   }

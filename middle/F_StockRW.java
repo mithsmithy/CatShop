@@ -1,9 +1,12 @@
 package middle;
 
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+
 /**
  * Facade for read/write access to the stock list.
  * The actual implementation of this is held on the middle tier.
- * The actual stock list is held in a relational DataBase on the 
+ * The actual stock list is held in a relational DataBase on the
  * third tier.
  * @author  Mike Smith University of Brighton
  * @version 2.0
@@ -13,14 +16,11 @@ import catalogue.Product;
 import debug.DEBUG;
 import remote.RemoteStockRW_I;
 
-import java.rmi.Naming;
-import java.rmi.RemoteException;
-
 /**
  * Setup connection to the middle tier
  */
 
-public class F_StockRW extends F_StockR 
+public class F_StockRW extends F_StockR
                        implements StockReadWriter
 {
   private RemoteStockRW_I aR_StockRW  = null;
@@ -31,7 +31,7 @@ public class F_StockRW extends F_StockR
     super( url );                                   // Not used
     theStockURL = url;
   }
-  
+
   private void connect() throws StockException
   {
     try                                             // Setup
@@ -42,9 +42,9 @@ public class F_StockRW extends F_StockR
     catch ( Exception e )                           // Failure to
     {                                               //  attach to the
       aR_StockRW = null;
-      throw new StockException( "Com: " + 
+      throw new StockException( "Com: " +
                                e.getMessage()  );   //  object
-      
+
     }
   }
 
@@ -54,8 +54,9 @@ public class F_StockRW extends F_StockR
    * @throws StockException if remote exception
    */
 
- 
-  public boolean buyStock( String number, int amount )
+
+  @Override
+public boolean buyStock( String number, int amount )
          throws StockException
   {
     DEBUG.trace("F_StockRW:buyStock()" );
@@ -77,7 +78,8 @@ public class F_StockRW extends F_StockR
    * @throws StockException if remote exception
    */
 
-  public void addStock( String number, int amount )
+  @Override
+public void addStock( String number, int amount )
          throws StockException
   {
     DEBUG.trace("F_StockRW:addStock()" );
@@ -99,7 +101,8 @@ public class F_StockRW extends F_StockR
    * @throws StockException if remote exception
    */
 
-  public void modifyStock( Product detail )
+  @Override
+public void modifyStock( Product detail )
               throws StockException
   {
     DEBUG.trace("F_StockRW:modifyStock()" );

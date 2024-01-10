@@ -12,7 +12,7 @@ public class PickController
   private PickView  view  = null;
   /**
    * Constructor
-   * @param model The model 
+   * @param model The model
    * @param view  The view from which the interaction came
    */
   public PickController( PickModel model, PickView view )
@@ -28,6 +28,6 @@ public class PickController
   {
     model.doPick();
   }
-  
+
 }
 

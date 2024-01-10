@@ -13,7 +13,7 @@ public class CashierController
 
   /**
    * Constructor
-   * @param model The model 
+   * @param model The model
    * @param view  The view from which the interaction came
    */
   public CashierController( CashierModel model, CashierView view )
@@ -38,7 +38,7 @@ public class CashierController
   {
     model.doBuy();
   }
-  
+
    /**
    * Bought interaction from view
    */

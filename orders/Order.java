@@ -1,18 +1,21 @@
 package orders;
 
+import java.util.ArrayList;
+import java.util.Formatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import catalogue.Basket;
 import catalogue.Product;
 import debug.DEBUG;
 import middle.OrderException;
 import middle.OrderProcessing;
 
-import java.util.stream.Collectors;
-
-import java.util.*;
-
 /**
  * The order processing system.<BR>
- * Manages the progression of customer orders, 
+ * Manages the progression of customer orders,
  *  instances of a Basket as they are progressed through the system.
  * These stages are:
  * <BR><B>Waiting to be processed<BR>
@@ -21,10 +24,10 @@ import java.util.*;
  * @author  Mike Smith University of Brighton
  * @version 3.0
  */
- 
+
 public class Order implements OrderProcessing
 {
-  private enum State {Waiting, BeingPicked, ToBeCollected };
+  private enum State {Waiting, BeingPicked, ToBeCollected }
   /**
    * Wraps a Basket and it state into a folder
    */
@@ -32,7 +35,7 @@ public class Order implements OrderProcessing
   {
     private State  stateIs;       // Order state
     private Basket basket;        // For this basket
-    
+
     public Folder( Basket anOrder )
     {
       stateIs = State.Waiting;
@@ -45,12 +48,12 @@ public class Order implements OrderProcessing
 
     public void newState( State newState ) { stateIs = newState; }
   }
-  
+
   // Active orders in the Catshop system
   private final ArrayList<Folder>  folders = new ArrayList<>();
   private static int theNextNumber = 1;          // Start at order 1
 
-  /**  
+  /**
    * Used to generate debug information
    * @param  basket an instance of a basket
    * @return Description of contents
@@ -74,7 +77,8 @@ public class Order implements OrderProcessing
    *   would be good to recycle numbers after 999
    * @return A unique order number
    */
-  public synchronized int uniqueNumber()
+  @Override
+public synchronized int uniqueNumber()
          throws OrderException
   {
     return theNextNumber++;
@@ -83,8 +87,9 @@ public class Order implements OrderProcessing
   /**
    * Add a new order to the order processing system
    * @param bought A new order that is to be processed
-   */ 
-  public synchronized void newOrder( Basket bought )
+   */
+  @Override
+public synchronized void newOrder( Basket bought )
          throws OrderException
   {
     DEBUG.trace( "DEBUG: New order" );
@@ -99,7 +104,8 @@ public class Order implements OrderProcessing
    * Returns an order to pick from the warehouse.
    * @return An order to pick or null if no order
    */
-  public synchronized Basket getOrderToPick()
+  @Override
+public synchronized Basket getOrderToPick()
          throws OrderException
   {
     DEBUG.trace( "DEBUG: Get order to pick" );
@@ -123,16 +129,16 @@ public class Order implements OrderProcessing
    * @param  orderNum The order that has been picked
    * @return true Order in system, false no such order
    */
-  public synchronized boolean informOrderPicked( int orderNum )
+  @Override
+public synchronized boolean informOrderPicked( int orderNum )
          throws OrderException
   {
     DEBUG.trace( "DEBUG: Order picked [%d]", orderNum );
-    for ( int i=0; i < folders.size(); i++)
-    {
-      if ( folders.get(i).getBasket().getOrderNum() == orderNum && 
-           folders.get(i).getState()                == State.BeingPicked )
+    for (Folder folder : folders) {
+      if ( folder.getBasket().getOrderNum() == orderNum &&
+           folder.getState()                == State.BeingPicked )
       {
-        folders.get(i).newState( State.ToBeCollected );
+        folder.newState( State.ToBeCollected );
         return true;
       }
     }
@@ -144,7 +150,8 @@ public class Order implements OrderProcessing
    * collected by the customer
    * @return true If order is in the system, otherwise false
    */
-  public synchronized boolean informOrderCollected( int orderNum )
+  @Override
+public synchronized boolean informOrderCollected( int orderNum )
          throws OrderException
   {
     DEBUG.trace( "DEBUG: Order collected [%d]", orderNum );
@@ -161,7 +168,7 @@ public class Order implements OrderProcessing
   }
 
   /**
-   * Returns information about all the orders (there order number) 
+   * Returns information about all the orders (there order number)
    * in the order processing system
    * This consists of a map with the following keys:
    *<PRE>
@@ -173,7 +180,8 @@ public class Order implements OrderProcessing
    * </PRE>
    * @return a Map with the keys: "Waiting", "BeingPicked", "ToBeCollected"
    */
-  public synchronized Map<String, List<Integer> > getOrderState()
+  @Override
+public synchronized Map<String, List<Integer> > getOrderState()
          throws OrderException
   {
     //DEBUG.trace( "DEBUG: get state of order system" );
@@ -212,7 +220,7 @@ public class Order implements OrderProcessing
   private List<Integer> orderNums( State inState )
   {
     return folders.stream()
-            .filter( folder -> folder.getState() == inState ) 
+            .filter( folder -> folder.getState() == inState )
             .map( folder -> folder.getBasket().getOrderNum() )
             .collect( Collectors.toList() );
   }

@@ -6,7 +6,7 @@ package dbAccess;
   * @author  Mike Smith University of Brighton
   * @version 2.0
   */
- 
+
 class DerbyCreateAccess extends DBAccess
 {
   private static final String URLdb =
@@ -14,12 +14,14 @@ class DerbyCreateAccess extends DBAccess
   private static final String DRIVER =
                  "org.apache.derby.jdbc.EmbeddedDriver";
 
-  public void loadDriver() throws Exception
+  @Override
+public void loadDriver() throws Exception
   {
     Class.forName(DRIVER).newInstance();
   }
 
-  public String urlOfDatabase()
+  @Override
+public String urlOfDatabase()
   {
     return URLdb;
   }

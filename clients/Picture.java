@@ -1,8 +1,13 @@
 package clients;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.Rectangle2D;
+
+import javax.swing.ImageIcon;
 
 /**
  * A class to display a picture in a client
@@ -20,7 +25,7 @@ public class Picture extends Canvas
   {
     setSize( width, height );
   }
-  
+
   public Picture(int aWidth, int aHeight)
   {
     width = aWidth;
@@ -33,27 +38,29 @@ public class Picture extends Canvas
     thePicture = ic.getImage();         // Image to be drawn
     repaint();
   }
-    
+
   public void clear()
   {
     thePicture = null;                  // clear picture
     repaint();                          // Force repaint
   }
 
-  public void paint( Graphics g )       // When 'Window' is first
+  @Override
+public void paint( Graphics g )       // When 'Window' is first
   {                                     //  shown or damaged
     drawImage( (Graphics2D) g );
   }
-  
-  public void update( Graphics g )      // Called by repaint
+
+  @Override
+public void update( Graphics g )      // Called by repaint
   {                                     //
     drawImage( (Graphics2D) g );        // Draw picture
   }
 
   /**
    * Draw the picture
-   * First set the area to white and then 
-   *  draw the image 
+   * First set the area to white and then
+   *  draw the image
    * @param g Grapics context
    */
 

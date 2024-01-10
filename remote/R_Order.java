@@ -1,13 +1,13 @@
 package remote;
 
-import catalogue.Basket;
-import middle.OrderException;
-import orders.Order;
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Map;
+
+import catalogue.Basket;
+import middle.OrderException;
+import orders.Order;
 
 /**
  * The order processing handling.
@@ -29,39 +29,45 @@ public class      R_Order
     aOrder = new Order();
   }
 
-  public void newOrder( Basket bought )
+  @Override
+public void newOrder( Basket bought )
          throws RemoteException, OrderException
   {
      aOrder.newOrder( bought );
-    
+
   }
 
-  public int uniqueNumber()
+  @Override
+public int uniqueNumber()
          throws RemoteException, OrderException
   {
     return aOrder.uniqueNumber();
   }
-  
-  public Basket getOrderToPick()
+
+  @Override
+public Basket getOrderToPick()
          throws RemoteException, OrderException
   {
       return aOrder.getOrderToPick();
   }
-  
-  public boolean informOrderPicked( int orderNum )
+
+  @Override
+public boolean informOrderPicked( int orderNum )
          throws RemoteException, OrderException
   {
      return aOrder.informOrderPicked(orderNum);
   }
-  
-  public boolean informOrderCollected( int orderNum )
+
+  @Override
+public boolean informOrderCollected( int orderNum )
          throws RemoteException, OrderException
   {
       return aOrder.informOrderCollected(orderNum);
   }
-  
-  
-  public Map<String, List<Integer>> getOrderState()
+
+
+  @Override
+public Map<String, List<Integer>> getOrderState()
           throws RemoteException, OrderException
   {
     return aOrder.getOrderState();
